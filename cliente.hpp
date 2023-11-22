@@ -22,19 +22,5 @@ public:
 
 };
 
-class ControleClientes
-{
-private:
-    vector <Cliente> _clientes;
-public:
-    ControleClientes();
-    ~ControleClientes();
-
-    void cadastrar_cliente(int cpf, string nome);
-    void remover_cliente(int cpf);
-    void listar_clientes(char tipo_ordenacao);
-    Cliente* buscar_cliente(int cpf);
-};
-
 
 #endif

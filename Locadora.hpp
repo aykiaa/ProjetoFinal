@@ -24,7 +24,7 @@ class Locadora
         void alugar_Filme( vector<int> codigos, int cpf );
         void devolver_Filme();
 
-        class ControleClientes
+      class ControleClientes
         {
             private:
                 vector <Cliente> _clientes;
@@ -38,7 +38,7 @@ class Locadora
                 Cliente* buscar_cliente(int cpf);
         };
 
-        class ControleEstoque
+      class ControleEstoque
         {
             private:
                 map <int, Filme*> _Estoque; //Filmes são guardados em um mapa pelo código e apontador ao filme

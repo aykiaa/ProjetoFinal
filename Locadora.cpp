@@ -16,16 +16,43 @@ Locadora::~Locadora()
     _Logs.close();
 }
 
-void Locadora::alugar_Filme( vector<int> codigos, int cpf ){
+void Locadora::alugar_Filme( vector<int> codigos, int cpf )
+{
+    if ( _Controle_Clientes.buscar_cliente( cpf ) ) { exit(1) };
+
     map <int, Filme*> *estoque = &_Controle_Estoque.getEstoque();
     vector<int> codigos_invalidos;
+    vector<Filme*> filmes_alugados;
 
-    for(auto it:codigos )
+    for( auto id_novo_filme:codigos )
+
     {
-        if( (*estoque).find(it) == (*estoque).end() )
+        if( (*estoque).find( id_novo_filme ) == (*estoque).end() )
         {
-            codigos_invalidos.push_back(it);
+            codigos_invalidos.push_back( id_novo_filme );
         }
+        else
+        {
+            filmes_alugados.push_back( (*estoque).at( id_novo_filme ) );
+        }
+    }
+
+    cout << "Cliente " << cpf << " " << _Controle_Clientes.buscar_cliente( cpf )->get_nome()
+    << " alugou os filmes:" << endl;
+    for( auto novo_filme:filmes_alugados )
+    {
+        string linha_log = novo_filme->get_titulo() 
+        + " " + novo_filme->get_id() 
+        + " " + novo_filme->get_categoria();
+
+        cout << linha_log << endl;
+        _Log << linha_log << endl;
+
+    }
+
+    for( auto t:codigos_invalidos )
+    {
+        cout << "ERRO: Filme " << t << " inexistente" << endl;
     }
     
 }

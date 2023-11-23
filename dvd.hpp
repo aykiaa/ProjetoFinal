@@ -9,7 +9,8 @@ private:
 public:
     DVD(int id, string titulo, int qtd_disp, string categoria);
     ~DVD();
-    string get_categoria();
+    
+    virtual string get_categoria() override;
 
     float calc_valor_locacao (int dias) const override;
 

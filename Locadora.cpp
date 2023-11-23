@@ -1,10 +1,34 @@
 #include "Locadora.hpp"
 #include <algorithm>
+#include <fstream>
+#include <sstream>
 
 //Desenvolvimento classe locadora
-Locadora::Locadora( string nome ) : _Nome(nome) {}
-Locadora::~Locadora() {}
+Locadora::Locadora( string nome ) : _Nome(nome) 
+{
+    string nome_arquivo_logs = "Alugueis_" + nome + "_log.txt";
+    _Logs.open( nome_arquivo_logs, ios::app);
+    ControleEstoque _Controle_Estoque;
+    ControleClientes _Controle_Clientes;
+}
+Locadora::~Locadora() 
+{
+    _Logs.close();
+}
 
+void Locadora::alugar_Filme( vector<int> codigos, int cpf ){
+    map <int, Filme*> *estoque = &_Controle_Estoque.getEstoque();
+    vector<int> codigos_invalidos;
+
+    for(auto it:codigos )
+    {
+        if( (*estoque).find(it) == (*estoque).end() )
+        {
+            codigos_invalidos.push_back(it);
+        }
+    }
+    
+}
 
 //Inserção do controle de filmes na classe locadora
 Locadora::ControleEstoque::ControleEstoque() {}
@@ -18,7 +42,31 @@ Locadora::ControleEstoque::~ControleEstoque() //Desalocando ponteiros dos filmes
 
 map <int, Filme*> Locadora::ControleEstoque::getEstoque() { return _Estoque; }
 
-void Locadora::ControleEstoque::cadastrar_Filme( char tipo, int quantidade, int codigo, string titulo, string categoria ) 
+void Locadora::ControleEstoque::ler_Arquivo_de_Estoque( string nome_do_arquivo )
+{
+    ifstream arquivo_de_filmes;
+    arquivo_de_filmes.open( nome_do_arquivo );
+
+    char tipo;
+    int quantidade, codigo;
+    string titulo, categoria, linha_do_arquivo;
+
+    int numero_de_filmes = 0;
+    if( arquivo_de_filmes.is_open() )
+    {
+        while( getline( arquivo_de_filmes, linha_do_arquivo ) )
+        {
+            stringstream linha_do_arquivo;
+            linha_do_arquivo >> tipo >> quantidade >> codigo >> titulo >> categoria;
+            this->cadastrar_Filme(1, tipo, quantidade, codigo, titulo, categoria);
+            numero_de_filmes += 1;
+        }
+    }
+    arquivo_de_filmes.close();
+    cout << numero_de_filmes << " Filmes cadastrados com sucesso" << endl; 
+}
+
+void Locadora::ControleEstoque::cadastrar_Filme( bool file, char tipo, int quantidade, int codigo, string titulo, string categoria ) 
 {
     //CONFERINDO DADOS
     //OBS: NO MAIN, CONFERIR INPUT DE DADOS E IMPRIMIR ERROS ANTES DE CHAMAR A FUNÇÃO    
@@ -36,6 +84,10 @@ void Locadora::ControleEstoque::cadastrar_Filme( char tipo, int quantidade, int 
         else{
             Filme* Novo_Filme = new DVD(codigo, titulo, quantidade, categoria);
             _Estoque.emplace(codigo, Novo_Filme);
+            if( !file )
+            {
+            cout << "Filme " << codigo << " cadastrado com sucesso" << endl;
+            }
         }
     }
     else if(tipo == 'F')
@@ -48,8 +100,59 @@ void Locadora::ControleEstoque::cadastrar_Filme( char tipo, int quantidade, int 
         {
             Filme* Novo_Filme = new Fita(codigo, titulo, quantidade);
             _Estoque.emplace(codigo, Novo_Filme);
+            if( !file )
+            {
+            cout << "Filme " << codigo << " cadastrado com sucesso" << endl;
+            }
         }
     }
+}
+
+void Locadora::ControleEstoque::remover_Filme( int codigo )
+{
+    if( _Estoque.find( codigo ) != _Estoque.end())
+    {
+        delete _Estoque.at( codigo );
+        _Estoque.erase( codigo );
+        cout << "Filme " << codigo << " removido com sucesso" << endl;
+    }
+    else 
+    {
+        cout << "ERRO: codigo inexistente" << endl;
+    }
+}
+
+void Locadora::ControleEstoque::imprimir_Estoque( char tipo_ordenacao)
+{
+    vector <Filme> filmes_ordenados;
+    for( auto it : _Estoque )
+    {
+        filmes_ordenados.push_back( *it.second );
+    }
+
+    if( tipo_ordenacao == 'T' )
+    {
+        sort  
+        ( 
+            filmes_ordenados.begin(), 
+            filmes_ordenados.end(), 
+            [](const Filme& F1, const Filme& F2 ) { return F1.get_titulo() <= F2.get_titulo(); } 
+        );
+    }
+    else if( tipo_ordenacao != 'C' )
+    {
+        cout << "ERRO: comando invalido" << endl;
+        exit(1);
+    }
+
+    for( auto it : filmes_ordenados ) 
+    {
+        cout << it.get_id() << " " 
+        <<  it.get_titulo() << " " 
+        << it.get_qtdDisp() << " " 
+        << it.get_categoria() << endl;
+    }
+
 }
 
 //Inserçào do controle de clientes na classe locadora
@@ -86,7 +189,7 @@ void Locadora::ControleClientes::remover_cliente(int cpf){
     };
 }
 
-void Locadora::ControleClientes::listar_clientes(char tipo_ordenacao){
+void Locadora::ControleClientes::imprimir_clientes(char tipo_ordenacao){
     vector <Cliente> clientes_ordernados = _clientes;
     if ( tipo_ordenacao == 'C')
     {
@@ -98,7 +201,7 @@ void Locadora::ControleClientes::listar_clientes(char tipo_ordenacao){
     else if ( tipo_ordenacao == 'N')
     {
         sort(clientes_ordernados.begin(), clientes_ordernados.end(), [](const Cliente& c1, const Cliente& c2){
-                return c1.get_nome () < c2.get_nome();
+                return c1.get_nome () <= c2.get_nome();
             });
     }
 
@@ -119,7 +222,7 @@ Cliente* Locadora::ControleClientes::buscar_cliente(int cpf){
     
     else 
     {
-        cout << "Nenhum cliente foi encontrado" << endl;
+        cout << "ERRO: CPF inexistente" << endl;
         return nullptr;
     }
 }

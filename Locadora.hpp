@@ -1,7 +1,7 @@
 #ifndef LOCADORA_H
 #define LOCADORA_H
 
-#include "Filmes.hpp"
+#include "Filme.hpp"
 #include "dvd.hpp"
 #include "fita.hpp"
 #include "cliente.hpp"

@@ -1,10 +1,10 @@
-#ifndef CLIENTE_HPP
-#define CLIENTE_HPP
+#ifndef CLIENTE_H
+#define CLIENTE_H
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include "Filmes.hpp"
+#include "Filme.hpp"
 
 using namespace std;
 

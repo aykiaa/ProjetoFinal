@@ -3,16 +3,20 @@
 #include <iostream>
 #include <string>
 #include <vector>
+
+#include "Filmes.hpp"
+
 using namespace std;
 
 
 
 class Cliente
 {
+  friend class Locadora;
 private:
     string _nome;
     int _cpf;
-
+    vector <Filme*> _Filmes_Alugados;
 public:
     Cliente(int cpf, string nome);
     ~Cliente();

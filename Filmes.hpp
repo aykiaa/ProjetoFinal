@@ -7,6 +7,7 @@ using namespace std;
 
 class Filme
 {
+  friend class Locadora;
 private:
     int _id;
     string _titulo;

@@ -5,8 +5,9 @@
 Fita::Fita(int id, string titulo, int qtd_disp) : Filme(id, titulo, qtd_disp){
     _isRebobinada = rand() % 2 == 0;   //randomizo se a fita estara rebobinada ou nao
 }; 
-
 Fita::~Fita(){};
+
+string Fita::get_categoria() { return ""; }
 
 bool Fita::get_isRebobinada() const {
     return _isRebobinada;
@@ -17,7 +18,7 @@ float Fita::calc_valor_locacao (int dias) const {
     {
         return 5.0;
     }
-    else if (!_isRebobinada)
+    else
     {
         return 7.0; // 5 + 2 de multa
     }

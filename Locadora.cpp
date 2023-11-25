@@ -3,7 +3,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <sstream>
-#define RAND_MAX 14
+#include <map>
 
 //Desenvolvimento classe locadora
 Locadora::Locadora( string nome ) : _Nome(nome) 
@@ -11,6 +11,7 @@ Locadora::Locadora( string nome ) : _Nome(nome)
     string nome_arquivo_logs = "Alugueis_" + nome + "_log.txt";
     _Logs.open( nome_arquivo_logs, ios::app);
 }
+
 Locadora::~Locadora() 
 {
     for( auto it = _Clientes.back(); it != _Clientes.front(); it-- ){
@@ -164,14 +165,14 @@ void Locadora::cadastrar_Filme( bool file, char tipo, int quantidade, int codigo
         {
             cout << "ERRO: dados incorretos" << endl;
         }
-        else{
-            Filme* Novo_Filme = new DVD(codigo, titulo, quantidade, categoria);
-            _Estoque.emplace(codigo, Novo_Filme);
-            if( !file )
-            {
-            cout << "Filme " << codigo << " cadastrado com sucesso" << endl;
-            }
+        
+        Filme* Novo_Filme = new DVD(codigo, titulo, quantidade, categoria);
+        _Estoque.emplace(codigo, Novo_Filme);
+        if( !file )
+        {
+        cout << "Filme " << codigo << " cadastrado com sucesso" << endl;
         }
+        
     }
     else if(tipo == 'F')
     {
@@ -179,23 +180,21 @@ void Locadora::cadastrar_Filme( bool file, char tipo, int quantidade, int codigo
         {
             cout << "ERRO: dados incorretos" << endl;
         }
-        else
+        
+        Filme* Novo_Filme = new Fita(codigo, titulo, quantidade);
+        _Estoque.emplace(codigo, Novo_Filme);
+        if( !file )
         {
-            Filme* Novo_Filme = new Fita(codigo, titulo, quantidade);
-            _Estoque.emplace(codigo, Novo_Filme);
-            if( !file )
-            {
-            cout << "Filme " << codigo << " cadastrado com sucesso" << endl;
-            }
+        cout << "Filme " << codigo << " cadastrado com sucesso" << endl;
         }
     }
 }
 
 void Locadora::remover_Filme( int codigo )
 {
-    if( _Estoque.find( codigo ) != _Estoque.end())
+    if( _Estoque.find( codigo ) != _Estoque.end() )
     {
-        delete _Estoque.at( codigo );
+        delete _Estoque.find( codigo )->second;
         _Estoque.erase( codigo );
         cout << "Filme " << codigo << " removido com sucesso" << endl;
     }
@@ -207,10 +206,10 @@ void Locadora::remover_Filme( int codigo )
 
 void Locadora::imprimir_Estoque( char tipo_ordenacao)
 {
-    vector <Filme> filmes_ordenados;
+    vector <Filme*> filmes_ordenados;
     for( auto it : _Estoque )
     {
-        filmes_ordenados.push_back( *it.second );
+        filmes_ordenados.push_back( it.second );
     }
 
     if( tipo_ordenacao == 'T' )
@@ -219,7 +218,7 @@ void Locadora::imprimir_Estoque( char tipo_ordenacao)
         ( 
             filmes_ordenados.begin(), 
             filmes_ordenados.end(), 
-            [](const Filme& F1, const Filme& F2 ) { return F1.get_titulo() <= F2.get_titulo(); } 
+            [](const Filme* F1,const Filme* F2 ) { return F1->get_titulo() <= F2->get_titulo(); } 
         );
     }
     else if( tipo_ordenacao != 'C' )
@@ -228,32 +227,36 @@ void Locadora::imprimir_Estoque( char tipo_ordenacao)
         exit(1);
     }
 
-    for( auto it : filmes_ordenados ) 
+    for( Filme* it : filmes_ordenados ) 
     {
-        cout << it.get_id() << " " 
-        <<  it.get_titulo() << " " 
-        << it.get_qtdDisp() << " " 
-        << it.get_categoria() << endl;
+        cout << it->get_id() << " " 
+        <<  it->get_titulo() << " " 
+        << it->get_qtdDisp() << " " 
+        << it->get_categoria() << endl;
     }
 
 }
 
 //Controle de Clientes
 
-void Locadora::cadastrar_cliente(int cpf, string nome){
-    if (any_of(_Clientes.begin(), _Clientes.end(), [cpf](const Cliente* cliente1) { return cliente1->get_cpf() == cpf;}))
-    {
-        cout << "ERRO: CPF repetido" << endl;
+void Locadora::cadastrar_cliente( int cpf , string nome){
+    for( Cliente* it:_Clientes ){
+        if( it->get_cpf() == cpf ){
+            cout << "ERRO: CPF repetido" << endl;
+            exit(1);
+        }
     }
-    else if (cpf <=  0 || nome.empty())
+    
+    if (cpf <=  0 || nome.empty())
     {
         cout << "ERRO: dados incorretos" << endl;
     }
     else
     {
-        _Clientes.emplace_back(cpf, nome);
+        Cliente* novo_cliente = new Cliente(cpf, nome);
+        _Clientes.emplace_back(novo_cliente);
         cout << "Cliente " << cpf << " cadastro com sucesso" << endl;
-    };
+    }
 }
 
 void Locadora::remover_cliente(int cpf){
@@ -305,4 +308,5 @@ Cliente* Locadora::buscar_cliente(int cpf){
             return nullptr;
         }
     }
+    return nullptr;
 }

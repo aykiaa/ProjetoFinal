@@ -30,7 +30,7 @@ class Locadora
         void alugar_Filme( vector<int> codigos, int cpf );
         void devolver_Filme( int cpf );
 
-        void cadastrar_cliente(int cpf, string nome);
+        void cadastrar_cliente( int cpf, string nome);
         void remover_cliente(int cpf);
         void imprimir_clientes(char tipo_ordenacao);
         Cliente* buscar_cliente(int cpf);

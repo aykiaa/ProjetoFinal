@@ -1,0 +1,9 @@
+F 2 35435 O_Massacre_Da_Serra_Eletrica
+D 1 45687 Tirando_Onda Promocao
+D 2 456871 Mar_de_Monstros Estoque
+D 1 456892 Percy_Jackson_1 Promocao
+D 1 456893 Percy_Jackson_2 Estoque
+D 1 456894 Tirando_Onda_2 Lancamento
+F 1 86542 Analise
+F 2 01735 A_Freira
+D 1 12357 Anabelle_2 Lancamento

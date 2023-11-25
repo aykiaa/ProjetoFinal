@@ -94,11 +94,14 @@ int main(){
             localiza.alugar_Filme(codigos, cpf);
         }
         else if(comando=="DV"){
-            
+            int cpf;
+            cin>>cpf;
+            localiza.devolver_Filme(cpf);
         }
         else if(comando=="FS"){
-            
+            break;
         }
+        else break;
         
     }
 

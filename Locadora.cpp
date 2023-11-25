@@ -258,20 +258,35 @@ void Locadora::imprimir_Estoque( char tipo_ordenacao)
             filmes_ordenados.end(), 
             [](const Filme* F1,const Filme* F2 ) { return F1->get_titulo() <= F2->get_titulo(); } 
         );
+        for( Filme* it : filmes_ordenados ) 
+        {
+            cout << it->get_id() << " " 
+            <<  it->get_titulo() << " " 
+            << it->get_qtdDisp() << " " 
+            << it->get_categoria() << endl;
+        }
+    }
+    else if(tipo_ordenacao == 'C'){
+        sort  
+        ( 
+            filmes_ordenados.begin(), 
+            filmes_ordenados.end(), 
+            [](const Filme* F1,const Filme* F2 ) { return F1->get_id() <= F2->get_id(); } 
+        );
+        for( Filme* it : filmes_ordenados ) 
+        {
+            cout << it->get_id() << " " 
+            <<  it->get_titulo() << " " 
+            << it->get_qtdDisp() << " " 
+            << it->get_categoria() << endl;
+        }
     }
     else if( tipo_ordenacao != 'C' )
     {
         cout << "ERRO: comando invalido" << endl;
-        exit(1);
+        
     }
 
-    for( Filme* it : filmes_ordenados ) 
-    {
-        cout << it->get_id() << " " 
-        <<  it->get_titulo() << " " 
-        << it->get_qtdDisp() << " " 
-        << it->get_categoria() << endl;
-    }
 
 }
 

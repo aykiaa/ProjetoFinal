@@ -278,16 +278,18 @@ void Locadora::imprimir_Estoque( char tipo_ordenacao)
 //Controle de Clientes
 
 void Locadora::cadastrar_cliente( int cpf , string nome){
+    
     if( any_of(_Clientes.begin(), _Clientes.end(), 
         [cpf](const Cliente* C) {return C->get_cpf() == cpf;} ) == true )
     {
         cout << "ERRO: CPF repetido" << endl;
     }
 
-    else if (cpf <=  0 || nome.empty())
+    else if (cpf <=  0 || nome.empty() || to_string(cpf).length() != 11) //Verifica se o CPF informado eh valido
     {
         cout << "ERRO: dados incorretos" << endl;
     }
+    
     else
     {
         Cliente* novo_cliente = new Cliente(cpf, nome);
@@ -325,7 +327,7 @@ void Locadora::imprimir_clientes(char tipo_ordenacao){
     else if ( tipo_ordenacao == 'N')
     {
         sort(clientes_ordernados.begin(), clientes_ordernados.end(), [](const Cliente* c1, const Cliente* c2){
-                return c1->get_nome () <= c2->get_nome();
+                return c1->get_nome () < c2->get_nome();
             });
     }
 

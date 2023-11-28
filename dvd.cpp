@@ -21,12 +21,12 @@ DVD::DVD(int id, string titulo, int qtd_disp, string categoria) : Filme(id, titu
 
 DVD::~DVD(){};
 
-string DVD::get_categoria(){
+string DVD::get_categoria(){ /// Armazena a categoria
     return _categoria;
 }
 
 
-float DVD::calc_valor_locacao(int dias) const {
+float DVD::calc_valor_locacao(int dias) const { /// Calcula o valor da locacao
     if (_categoria == "Lancamento")
     {
         return (20.0*dias);

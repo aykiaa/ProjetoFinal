@@ -1,4 +1,4 @@
-/// Cabeçalho que define a estrutura da classe Fita, apresentando as funcionalidades específicas para fitas no sistema de locadora da filmes como:
+/// Cabecalho que define a estrutura da classe Fita, apresentando as funcionalidades específicas para fitas no sistema de locadora da filmes como:
 
 /// 1- Id
 /// 2- Título

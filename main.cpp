@@ -1,10 +1,10 @@
-/// Programa principal de gerenciamento das operações da locadora, utilizando as classes Filme, DVD, Fita, Cliente e Locadora.
+/// Programa principal de gerenciamento das operacoes da locadora, utilizando as classes Filme, DVD, Fita, Cliente e Locadora.
 
-/// Além disso, ocorre a definição da função isNotNumeric para verificar se um caractere não é numérico, e a implementação da função principal main.
+/// Alem disso, ocorre a definição da funcao isNotNumeric para verificar se um caractere nao e numerico, e a implementação da funcao principal main.
 
-/// No loop principal, o programa lê comandos do usuário, como a leitura de um arquivo de estoque, cadastro e remoção de filmes, cadastro e remoção de clientes, impressão de estoque, locação e devolução de filmes, entre outras operações.
+/// No loop principal, o programa lê comandos do usuario, como a leitura de um arquivo de estoque, cadastro e remoção de filmes, cadastro e remoção de clientes, impressao de estoque, locação e devolução de filmes, entre outras operações.
 
-/// Por fim, o programa continua executando até que o comando "FS" seja inserido, encerrando a execução.
+/// Por fim, o programa continua executando até que o comando "FS" seja inserido, encerrando a execucao.
 
 
 #include <iostream>

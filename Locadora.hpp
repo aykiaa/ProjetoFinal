@@ -6,16 +6,7 @@
 
 /// O destrutor faz a limpeza.
 
-/// A classe fornece metodos publicos para as seguintes operacoes:
-
-/// 1- alugar e devolver filmes
-/// 2- cadastrar e remover clientes
-/// 3- imprimir clientes ordenados
-/// 4- buscar clientes por CPF
-/// 5- obter o estoque
-/// 6- ler informações de um arquivo de estoque
-/// 7- cadastrar e remover filmes do estoque
-/// 8- imprimir o estoque ordenado.
+/// A classe fornece metodos publicos para as seguintes operacoes relacionadas a gestao de filmes, clientes e estoque.
 
 #ifndef LOCADORA_H
 #define LOCADORA_H

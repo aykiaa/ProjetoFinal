@@ -1,27 +1,27 @@
-/** Implementação da classe Locadora, que gerencia as operações da locadora de filmes.
+/// Implementação da classe Locadora, que gerencia as operações da locadora de filmes.
 
-O construtor Locadora(string nome) inicializa os membros, incluindo o nome da locadora e o objeto de log.
+/// O construtor Locadora(string nome) inicializa os membros, incluindo o nome da locadora e o objeto de log.
 
-O destrutor realiza a limpeza dos recursos dinamicamente tanto para clientes quanto para filmes.
+/// O destrutor realiza a limpeza dos recursos dinamicamente tanto para clientes quanto para filmes.
 
-A classe fornece métodos para operações como:
+/// A classe fornece métodos para operações como:
 
-1- Alugar e devolver filmes
-2- Cadastrar e remover clientes
-3- Imprimir clientes ordenados
-4- Buscar clientes por CPF
-5- Obter o estoque
-6- Ler informações de um arquivo de estoque
-7- Cadastrar e remover filmes do estoque
-8- Imprimir o estoque ordenado.
+/// 1- Alugar e devolver filmes
+/// 2- Cadastrar e remover clientes
+/// 3- Imprimir clientes ordenados
+/// 4- Buscar clientes por CPF
+/// 5- Obter o estoque
+/// 6- Ler informações de um arquivo de estoque
+/// 7- Cadastrar e remover filmes do estoque
+/// 8- Imprimir o estoque ordenado.
 
-O método alugar_Filme lida com a locação de filmes, separando os códigos de filmes válidos e inválidos, atualizando o estoque e registrando as operações no log. O método devolver_Filme trata a devolução de filmes, calculando o valor a ser pago pelo cliente com base nos filmes devolvidos e registrando no log.
+/// O método alugar_Filme lida com a locação de filmes, separando os códigos de filmes válidos e inválidos, atualizando o estoque e registrando as operações no log. O método devolver_Filme trata a devolução de filmes, calculando o valor a ser pago pelo cliente com base nos filmes devolvidos e registrando no log.
 
-Os métodos de controle de estoque (ler_Arquivo_de_Estoque, cadastrar_Filme, remover_Filme, imprimir_Estoque) realizam operações relacionadas ao estoque de filmes.
+/// Os métodos de controle de estoque (ler_Arquivo_de_Estoque, cadastrar_Filme, remover_Filme, imprimir_Estoque) realizam operações relacionadas ao estoque de filmes.
 
-Os métodos de controle de clientes (cadastrar_cliente, remover_cliente, imprimir_clientes, buscar_cliente) tratam a gestão de clientes, incluindo a adição, remoção e impressão de clientes.
+/// Os métodos de controle de clientes (cadastrar_cliente, remover_cliente, imprimir_clientes, buscar_cliente) tratam a gestão de clientes, incluindo a adição, remoção e impressão de clientes.
 
-Resumindo o código implementa a lógica principal para gerenciar as operações da nossa locadora, manipulando o estoque de filmes, operações de aluguel e devolução, além do cadastro e remoção de clientes. O código utiliza recursos como leitura de arquivos, manipulação de strings e operações sobre containers, como vetores e mapas.**/
+/// Resumindo o código implementa a lógica principal para gerenciar as operações da nossa locadora, manipulando o estoque de filmes, operações de aluguel e devolução, além do cadastro e remoção de clientes. Ele utiliza recursos como leitura de arquivos, manipulação de strings e operações sobre containers, como vetores e mapas.
 
 #include "Locadora.hpp"
 #include <algorithm>

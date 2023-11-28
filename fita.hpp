@@ -1,3 +1,9 @@
+/*/ Cabeçalho que define a estrutura da classe Fita, apresentando as funcionalidades específicas para fitas no sistema de locadora da filmes como:
+1- id
+2- título
+3- quantidade
+4- valor
+5- rebobinação /*/
 #ifndef FITA_H
 #define FITA_H
 #include "Filme.hpp"

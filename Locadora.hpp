@@ -1,3 +1,15 @@
+/*/ Cabeçalho da classe Locadora, que representa uma locadora de filmes.
+A classe inclui membros privados, como o nome da locadora (_Nome), um objeto para registros de log (_Logs), um mapa que mapeia identificadores para objetos da classe Filme (_Estoque) e um vetor de clientes (_Clientes).
+O construtor Locadora( string nome ) é responsável por inicializar o nome da locadora e o objeto de logs. Já o destrutor não tem funcionalidades adicionais.
+A classe fornece métodos públicos para as seguintes operações:
+1- como alugar e devolver filmes
+2- cadastrar e remover clientes
+3- imprimir clientes ordenados
+4- buscar clientes por CPF
+5- obter o estoque
+6- ler informações de um arquivo de estoque
+7- cadastrar e remover filmes do estoque
+8- imprimir o estoque ordenado./*/
 #ifndef LOCADORA_H
 #define LOCADORA_H
 

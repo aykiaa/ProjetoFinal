@@ -6,12 +6,12 @@
 #include <algorithm>
 
 
-Cliente::Cliente(int cpf, string nome) : _cpf(cpf),  _nome(nome){};
+Cliente::Cliente(long cpf, string nome) : _cpf(cpf),  _nome(nome){};
 
 Cliente::~Cliente(){};
 
 
-int Cliente::get_cpf() const{ /// Armazena o cpf do cliente
+long Cliente::get_cpf() const{ /// Armazena o cpf do cliente
     return  _cpf;
 }
 

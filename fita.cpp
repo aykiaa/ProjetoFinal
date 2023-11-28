@@ -23,6 +23,7 @@ Fita::Fita(int id, string titulo, int qtd_disp) : Filme(id, titulo, qtd_disp){
 Fita::~Fita(){};
 
 string Fita::get_categoria() { return ""; }
+string Fita::get_tipo() { return "FITA"; }
 
 bool Fita::get_isRebobinada() const {
     return _isRebobinada;

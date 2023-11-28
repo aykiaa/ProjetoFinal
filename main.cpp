@@ -31,8 +31,7 @@ bool isNotNumeric(const char& c){
 int main(){
     string comando;
     Locadora localiza("localiza");
-    while(1){
-        cin>>comando;
+    while(cin>>comando){
         if(comando=="LA"){
             string nome_arquivo;
             cin >> nome_arquivo;
@@ -63,14 +62,14 @@ int main(){
             localiza.imprimir_Estoque( letra );
         }
         else if(comando=="CC"){
-            int cpf;
+            long cpf;
             string nome;
             cin>>cpf;
             cin>>nome;
             localiza.cadastrar_cliente(cpf,nome);
         }
         else if(comando=="RC"){
-            int cpf;
+            long cpf;
             cin>>cpf;
             localiza.remover_cliente(cpf);
         }
@@ -81,7 +80,7 @@ int main(){
         }
         else if(comando=="AL"){
             vector<int> codigos;
-            int cpf, novo_codigo;
+            long cpf, novo_codigo;
             cin >> cpf;
             string string_codigo, linha_input;
 
@@ -103,14 +102,15 @@ int main(){
             localiza.alugar_Filme(codigos, cpf);
         }
         else if(comando=="DV"){
-            int cpf;
+            long cpf;
             cin>>cpf;
             localiza.devolver_Filme(cpf);
         }
         else if(comando=="FS"){
             break;
         }
-        else break;
+        else
+            cout << "ERRO: comando inexistente" << endl;
         
     }
 

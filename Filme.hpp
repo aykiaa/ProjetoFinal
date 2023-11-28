@@ -32,6 +32,7 @@ public:
     virtual ~Filme();
     
     virtual string get_categoria() = 0;
+    virtual string get_tipo() = 0;
     int get_id() const;
     string get_titulo() const;
     int get_qtdDisp() const;

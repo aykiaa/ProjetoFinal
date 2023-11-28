@@ -23,14 +23,14 @@ class Cliente
   friend class Locadora;
 private:
     string _nome;
-    int _cpf;
+    long _cpf;
     vector <Filme*> _Filmes_Alugados;
 public:
-    Cliente(int cpf, string nome);
+    Cliente(long cpf, string nome);
     ~Cliente();
 
     string get_nome() const;
-    int get_cpf() const;
+    long get_cpf() const;
 
 };
 

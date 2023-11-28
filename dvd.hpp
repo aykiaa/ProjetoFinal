@@ -15,6 +15,7 @@ public:
     ~DVD();
     
     virtual string get_categoria();
+    virtual string get_tipo() override;
 
     float calc_valor_locacao (int dias) const override;
 

@@ -25,6 +25,7 @@ string DVD::get_categoria(){ /// Armazena a categoria
     return _categoria;
 }
 
+string DVD::get_tipo() { return "DVD"; }
 
 float DVD::calc_valor_locacao(int dias) const { /// Calcula o valor da locacao
     if (_categoria == "Lancamento")

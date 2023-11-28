@@ -20,6 +20,7 @@ public:
     ~Fita();
 
     virtual string get_categoria() override;
+    virtual string get_tipo() override;
     bool get_isRebobinada() const;
     
     float calc_valor_locacao (int dias) const override;

@@ -29,13 +29,13 @@ class Locadora
 
         void getNome();
 
-        void alugar_Filme( vector<int> codigos, int cpf );
-        void devolver_Filme( int cpf );
+        void alugar_Filme( vector<int> codigos, long cpf );
+        void devolver_Filme( long cpf );
 
-        void cadastrar_cliente( int cpf, string nome);
-        void remover_cliente(int cpf);
+        void cadastrar_cliente( long cpf, string nome);
+        void remover_cliente(long cpf);
         void imprimir_clientes(char tipo_ordenacao);
-        Cliente* buscar_cliente(int cpf);
+        Cliente* buscar_cliente(long cpf);
 
         map <int, Filme*> getEstoque();
                 

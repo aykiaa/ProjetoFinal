@@ -1,10 +1,10 @@
-/// O cabeçalho implementa a classe Cliente, oferecendo métodos públicos parar acessar as informações do cliente no sistema de locadora de filmes, como:
+/// O cabecalho implementa a classe Cliente, oferecendo metodos publicos parar acessar as informacoes do cliente no sistema de locadora de filmes, como:
 
 /// 1- Nome
 /// 2- Cpf
 /// 3- Lista de filmes que foram alugados.
 
-/// A amizade declarada com a classe Locadora sugere uma relação especial, permitindo que a locadora acesse diretamente os detalhes internos da classe Cliente.
+/// A amizade declarada com a classe Locadora sugere uma relacao especial, permitindo que a locadora acesse diretamente os detalhes internos da classe Cliente.
 
 #ifndef CLIENTE_H
 #define CLIENTE_H

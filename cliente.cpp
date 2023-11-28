@@ -11,10 +11,10 @@ Cliente::Cliente(int cpf, string nome) : _cpf(cpf),  _nome(nome){};
 Cliente::~Cliente(){};
 
 
-int Cliente::get_cpf() const{
+int Cliente::get_cpf() const{ /// Armazena o cpf do cliente
     return  _cpf;
 }
 
-string Cliente::get_nome() const{
+string Cliente::get_nome() const{ /// Armazena o nome do cliente
     return _nome;
 }

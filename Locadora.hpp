@@ -1,4 +1,4 @@
-/*/ Cabeçalho da classe Locadora, que representa uma locadora de filmes.
+/** Cabeçalho da classe Locadora, que representa uma locadora de filmes.
 
 A classe inclui membros privados, como o nome da locadora (_Nome), um objeto para registros de log (_Logs), um mapa que mapeia identificadores para objetos da classe Filme (_Estoque) e um vetor de clientes (_Clientes).
 
@@ -13,7 +13,7 @@ A classe fornece métodos públicos para as seguintes operações:
 5- obter o estoque
 6- ler informações de um arquivo de estoque
 7- cadastrar e remover filmes do estoque
-8- imprimir o estoque ordenado./*/
+8- imprimir o estoque ordenado.**/
 
 #ifndef LOCADORA_H
 #define LOCADORA_H

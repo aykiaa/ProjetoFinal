@@ -1,10 +1,10 @@
-/// Cabeçalho da classe Locadora, que representa uma locadora de filmes.
+/// Cabecalho da classe Locadora, que representa uma locadora de filmes.
 
 /// A classe inclui membros privados, como o nome da locadora (_Nome), um objeto para registros de log (_Logs), um mapa que mapeia identificadores para objetos da classe Filme (_Estoque) e um vetor de clientes (_Clientes).
 
-/// O construtor Locadora( string nome ) é responsável por inicializar o nome da locadora e o objeto de logs. Já o destrutor não tem funcionalidades adicionais.
+/// O construtor Locadora( string nome ) e responsavel por inicializar o nome da locadora e o objeto de logs. Ja o destrutor nao tem funcionalidades adicionais.
 
-/// A classe fornece métodos públicos para as seguintes operações:
+/// A classe fornece metodos publicos para as seguintes operacoes:
 
 /// 1- como alugar e devolver filmes
 /// 2- cadastrar e remover clientes

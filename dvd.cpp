@@ -1,3 +1,13 @@
+/*/ Definição da classe DVD, que herda características da classe base Filme e adiciona funcionalidades específicas para DVDs no sistema da locadora.
+O construtor da classe DVD é utilizado para inicializar os atributos da classe, incluindo um (id), um título, a quantidade disponível, e uma categoria específica.
+O destrutor realiza a limpeza quando um objeto DVD é removido.
+A função get_categoria() retorna a categoria do DVD.
+A função calc_valor_locacao(int dias) calcula o valor de locação do DVD com base no número de dias para os quais o cliente deseja alugá-lo.
+O valor é determinado pela categoria do DVD:
+1- se for "Lançamento", o custo é de 20.0 reais por dia;
+2- se for "Estoque", o custo é de 10.0 reais por dia;
+3- se for "Promoção", o custo é fixo em 10.0 reais;
+4- caso contrário, uma mensagem de erro é exibida indicando uma categoria inválida, e o valor de retorno é 0.0./*/
 #include "dvd.hpp"
 
 DVD::DVD(int id, string titulo, int qtd_disp, string categoria) : Filme(id, titulo, qtd_disp), _categoria(categoria){};

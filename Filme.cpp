@@ -19,14 +19,14 @@ Filme::Filme(int id, string titulo, int qtd_disp) : _id(id), _titulo(titulo), _q
 
 Filme::~Filme(){};
 
-int Filme::get_id() const{
+int Filme::get_id() const{ /// Armazena o id
     return _id;
 }
 
-string Filme::get_titulo() const{
+string Filme::get_titulo() const{ /// Armazena o titulo
     return _titulo;
 }
 
-int Filme::get_qtdDisp() const{
+int Filme::get_qtdDisp() const{ /// Armazena o quantidade disponivel
     return _qtd_disp;
 }

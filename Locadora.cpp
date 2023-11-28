@@ -1,4 +1,4 @@
-/*/ Implementação da classe Locadora, que gerencia as operações da locadora de filmes.
+/** Implementação da classe Locadora, que gerencia as operações da locadora de filmes.
 
 O construtor Locadora(string nome) inicializa os membros, incluindo o nome da locadora e o objeto de log.
 
@@ -21,7 +21,7 @@ Os métodos de controle de estoque (ler_Arquivo_de_Estoque, cadastrar_Filme, rem
 
 Os métodos de controle de clientes (cadastrar_cliente, remover_cliente, imprimir_clientes, buscar_cliente) tratam a gestão de clientes, incluindo a adição, remoção e impressão de clientes.
 
-Resumindo o código implementa a lógica principal para gerenciar as operações da nossa locadora, manipulando o estoque de filmes, operações de aluguel e devolução, além do cadastro e remoção de clientes. O código utiliza recursos como leitura de arquivos, manipulação de strings e operações sobre containers, como vetores e mapas./*/
+Resumindo o código implementa a lógica principal para gerenciar as operações da nossa locadora, manipulando o estoque de filmes, operações de aluguel e devolução, além do cadastro e remoção de clientes. O código utiliza recursos como leitura de arquivos, manipulação de strings e operações sobre containers, como vetores e mapas.**/
 
 #include "Locadora.hpp"
 #include <algorithm>

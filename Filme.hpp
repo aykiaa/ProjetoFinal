@@ -1,16 +1,16 @@
-/// Cabeçalho da classe abstrata Filme, a qual possui membros privados, incluindo um identificador único, um título e a quantidade disponível de cópias.
+/// Cabeçalho da classe abstrata Filme, a qual possui membros privados, incluindo um identificador unico, um titulo e a quantidade disponivel de copias.
 
-/// O seu construtor Filme(int id, string titulo, int qtd_disp) é responsável por inicializar esses atributos.
+/// O seu construtor Filme(int id, string titulo, int qtd_disp) e responsavel por inicializar esses atributos.
 
-/// O destrutor virtual é declarado, indicando que a classe é abstrata e pode conter métodos virtuais puros.
+/// O destrutor virtual e declarado, indicando que a classe e abstrata e pode conter metodos virtuais puros.
 
-/// A classe Filme inclui métodos públicos de acesso como:
+/// A classe Filme inclui metodos publicos de acesso como:
 
 /// 1- get_id() para obter o identificador
-/// 2- get_titulo() para obter o título
-/// 3- get_qtdDisp() para obter a quantidade disponível.
+/// 2- get_titulo() para obter o titulo
+/// 3- get_qtdDisp() para obter a quantidade disponivel.
 
-/// Além disso, a classe declara métodos virtuais puros get_categoria() e calc_valor_locacao(int dias) const, indicando que as classes derivadas devem implementar esses métodos.
+/// Alem disso, a classe declara metodos virtuais puros get_categoria() e calc_valor_locacao(int dias) const, indicando que as classes derivadas devem implementar esses metodos.
 
 #ifndef FILME_H
 #define FILME_H

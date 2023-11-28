@@ -1,3 +1,5 @@
+/// Cabecalho da classe Locadora, que fornece metodos publicos para as operacoes relacionadas a gestao de filmes, clientes e estoque. Alem disso, a classe inclui membros privados, como o nome da locadora, um objeto para registros de log, um mapa que mapeia identificadores para objetos da classe Filme e um vetor de clientes.
+
 #ifndef LOCADORA_H
 #define LOCADORA_H
 

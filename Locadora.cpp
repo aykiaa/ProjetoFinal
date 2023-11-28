@@ -154,7 +154,7 @@ void Locadora::devolver_Filme( int cpf ){
 map <int, Filme*> Locadora::getEstoque() { return _Estoque; }
 
 void Locadora::ler_Arquivo_de_Estoque( string nome_do_arquivo )
-{
+{ /// Faz a leitura de um aquivo do estoque
     ifstream arquivo_de_filmes;
     arquivo_de_filmes.open( nome_do_arquivo );
 
@@ -214,7 +214,7 @@ void Locadora::ler_Arquivo_de_Estoque( string nome_do_arquivo )
 }
 
 void Locadora::cadastrar_Filme( bool file, char tipo, int quantidade, int codigo, string titulo, string categoria ) 
-{
+{ /// funcao responsavel pelo cadastro de filmes
     //CONFERINDO DADOS
     //OBS: NO MAIN, CONFERIR INPUT DE DADOS E IMPRIMIR ERROS ANTES DE CHAMAR A FUNÇÃO    
 
@@ -254,7 +254,7 @@ void Locadora::cadastrar_Filme( bool file, char tipo, int quantidade, int codigo
 }
 
 void Locadora::remover_Filme( int codigo )
-{
+{ /// Remove um filme
     if( _Estoque.find( codigo ) != _Estoque.end() )
     {
         delete _Estoque.find( codigo )->second;
@@ -268,7 +268,7 @@ void Locadora::remover_Filme( int codigo )
 }
 
 void Locadora::imprimir_Estoque( char tipo_ordenacao)
-{
+{ /// Retorna os titulos que estao em estoque em ordem.
     vector <Filme*> filmes_ordenados;
     for( auto it : _Estoque )
     {
@@ -338,7 +338,7 @@ void Locadora::cadastrar_cliente( int cpf , string nome){
     }
 }
 
-void Locadora::remover_cliente(int cpf){
+void Locadora::remover_cliente(int cpf){ /// Remove um cliente 
     auto it = find_if(
       _Clientes.begin(), 
       _Clientes.end(), 
@@ -355,7 +355,7 @@ void Locadora::remover_cliente(int cpf){
     };
 }
 
-void Locadora::imprimir_clientes(char tipo_ordenacao){
+void Locadora::imprimir_clientes(char tipo_ordenacao){ /// Retorna os clientes em ordem
     vector <Cliente*> clientes_ordernados = _Clientes;
     if ( tipo_ordenacao == 'C')
     {
@@ -377,7 +377,7 @@ void Locadora::imprimir_clientes(char tipo_ordenacao){
     };
 }
 
-Cliente* Locadora::buscar_cliente(int cpf){
+Cliente* Locadora::buscar_cliente(int cpf){ /// Faz a busca de clientes por CPF
     for( Cliente* it:_Clientes ){
         if( it->get_cpf() == cpf ) {
             return it; 

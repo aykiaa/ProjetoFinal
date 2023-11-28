@@ -1,13 +1,3 @@
-/// Cabecalho da classe Locadora, que representa a locadora de filmes.
-
-/// A classe inclui membros privados, como o nome da locadora, um objeto para registros de log, um mapa que mapeia identificadores para objetos da classe Filme e um vetor de clientes.
-
-/// O construtor e responsavel por inicializar o nome da locadora e o objeto de logs.
-
-/// O destrutor faz a limpeza.
-
-/// A classe fornece metodos publicos para as seguintes operacoes relacionadas a gestao de filmes, clientes e estoque.
-
 #ifndef LOCADORA_H
 #define LOCADORA_H
 

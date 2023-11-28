@@ -1,3 +1,11 @@
+/*/implementação da classe Fita.
+O construtor inicializa os atributos da classe, herdando alguns de sua classe base Filme e introduzindo um novo atributo privado chamado _isRebobinada (este atributo é randomizado no momento da criação da fita, determinando se a fita está ou não rebobinada).
+O destrutor é usado para operações de limpeza quando um objeto Fita é destruído.
+A função get_categoria() retorna uma string vazia, indicando que as fitas não possuem categorias específicas.
+O método get_isRebobinada() retorna o estado da fita, informando se ela está rebobinada ou não.
+A função calc_valor_locacao(int dias) const calcula o valor de locação da fita com base no número de dias especificado.
+1- Se a fita estiver rebobinada, o custo é de 5.0 reais;
+2- Caso contrário, o custo é de 7.0 reais, considerando uma multa de 2.0 reais por não rebobinar a fita./*/
 #include "fita.hpp"
 #include <cstdlib>
 

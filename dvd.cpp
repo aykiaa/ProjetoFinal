@@ -1,4 +1,4 @@
-/*/ Definição da classe DVD, que herda características da classe base Filme e adiciona funcionalidades específicas para DVDs no sistema da locadora.
+/** Definição da classe DVD, que herda características da classe base Filme e adiciona funcionalidades específicas para DVDs no sistema da locadora.
 
 O construtor da classe DVD é utilizado para inicializar os atributos da classe, incluindo um (id), um título, a quantidade disponível, e uma categoria específica.
 
@@ -13,7 +13,7 @@ O valor é determinado pela categoria do DVD:
 1- "Lançamento", o custo é de 20.0 reais por dia;
 2- "Estoque", o custo é de 10.0 reais por dia;
 3- "Promoção", o custo é fixo em 10.0 reais;
-4- Caso contrário, uma mensagem de erro é exibida indicando uma categoria inválida, e o valor de retorno é 0.0./*/
+4- Caso contrário, uma mensagem de erro é exibida indicando uma categoria inválida, e o valor de retorno é 0.0.**/
 
 #include "dvd.hpp"
 

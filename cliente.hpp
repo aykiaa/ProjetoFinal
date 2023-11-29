@@ -1,11 +1,4 @@
-/// O cabecalho implementa a classe Cliente, oferecendo metodos publicos parar acessar as informacoes do cliente no sistema de locadora de filmes, como:
-
-/// 1- Nome
-/// 2- Cpf
-/// 3- Lista de filmes que foram alugados.
-
-/// A amizade declarada com a classe Locadora sugere uma relacao especial, permitindo que a locadora acesse diretamente os detalhes internos da classe Cliente.
-
+/// Arquivo de cabeçalho da classe cliente.
 #ifndef CLIENTE_H
 #define CLIENTE_H
 #include <iostream>
@@ -20,13 +13,15 @@ using namespace std;
 
 class Cliente
 {
-  friend class Locadora;
+  friend class Locadora; /// Declaração de amizade, o que permite o acesso de  membros privados da classe Cliente.
 private:
     string _nome;
     long _cpf;
     vector <Filme*> _Filmes_Alugados;
 public:
+/// Construtor da classe Cliente, inicializa os membros nome e cpf.
     Cliente(long cpf, string nome);
+/// Destrutor da classe Cliente.
     ~Cliente();
 
     string get_nome() const;

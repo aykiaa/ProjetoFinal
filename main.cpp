@@ -1,11 +1,8 @@
 /// Programa principal de gerenciamento das operacoes da locadora, utilizando as classes Filme, DVD, Fita, Cliente e Locadora.
 
-/// Alem disso, ocorre a definição da funcao isNotNumeric para verificar se um caractere nao e numerico, e a implementação da funcao principal main.
-
 /// No loop principal, o programa lê comandos do usuario, como a leitura de um arquivo de estoque, cadastro e remoção de filmes, cadastro e remoção de clientes, impressao de estoque, locação e devolução de filmes, entre outras operações.
 
 /// Por fim, o programa continua executando até que o comando "FS" seja inserido, encerrando a execucao.
-
 
 #include <iostream>
 #include <string>
@@ -20,14 +17,14 @@
 #include <ctype.h>
 
 using namespace std;
-
+/// Função auxiliar que verifica se um caractere nao e numerico.
 bool isNotNumeric(const char& c){
     if ( isdigit(c) ) 
         return false;
     else 
         return true;
 };
-
+/// Função principal que gerencia as operacoes da locadora.
 int main(){
     string comando;
     Locadora localiza("localiza");

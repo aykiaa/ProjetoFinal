@@ -1,13 +1,11 @@
-/// Definicao da classe Cliente serve como uma representacao basica de um cliente, armazenando informacoes como CPF e nome.
-
-/// Os metodos de acesso (get_cpf() e get_nome()) permitem recuperar essas informacoes de um objeto Cliente.
+/// Implementação da classe Cliente, armazenando informacoes como CPF e nome.
 
 #include "cliente.hpp"
 #include <algorithm>
 
-
+/// Construtor da classe Cliente, que inicializa os membros cpf e nome.
 Cliente::Cliente(long cpf, string nome) : _cpf(cpf),  _nome(nome){};
-
+/// Destrutor da classe Cliente.
 Cliente::~Cliente(){};
 
 

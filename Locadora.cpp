@@ -1,9 +1,5 @@
 /// Implementacao da classe Locadora, que gerencia as operacoes da locadora de filmes.
 
-/// O construtor Locadora(string nome) inicializa os membros, incluindo o nome da locadora e o objeto de log.
-
-/// O destrutor realiza a limpeza dos recursos de forma dinamica, tanto para clientes quanto para filmes.
-
 /// A classe fornece metodos para operacoes como:
 
 /// 1- Alugar e devolver filmes
@@ -32,13 +28,13 @@
 
 //Desenvolvimento classe locadora
 Locadora::Locadora( string nome ) : _Nome(nome) 
-{
+{ /// O construtor Locadora(string nome) inicializa os membros, incluindo o nome da locadora e o objeto de log.
     string nome_arquivo_logs = "Alugueis_" + nome + "_log.txt";
     _Logs.open( nome_arquivo_logs, ios::trunc);
 }
 
 Locadora::~Locadora() 
-{
+{ /// O destrutor realiza a limpeza dos recursos de forma dinamica, tanto para clientes quanto para filmes.
     for( auto it = _Clientes.back(); it != _Clientes.front(); it-- ){
         delete it;
         _Clientes.pop_back();
@@ -54,7 +50,7 @@ void Locadora::alugar_Filme( vector<int> codigos, long cpf )
 {
     if ( this->buscar_cliente( cpf ) == nullptr ) { return; };
 
-    //separando codigos em validos e invalidos
+    /// Separando codigos em validos e invalidos
     vector<int> codigos_invalidos;
     vector<Filme*> filmes_alugados;
     for( auto id_novo_filme:codigos ) 
@@ -69,7 +65,7 @@ void Locadora::alugar_Filme( vector<int> codigos, long cpf )
         }
     }
     
-    //Streams para impressao do log
+    /// Streams para impressao do log
     if( filmes_alugados.empty() == false ){
         
         stringstream stream_cliente;
@@ -84,14 +80,14 @@ void Locadora::alugar_Filme( vector<int> codigos, long cpf )
         //
     }
 
-    for( auto novo_filme:filmes_alugados ) //vetor filmes de codigos validos
+    for( auto novo_filme:filmes_alugados ) /// Vetor filmes de codigos validos
     {
         if( novo_filme->get_qtdDisp() > 0 ){
             novo_filme->_qtd_disp -= 1;
 
             this->buscar_cliente( cpf )->_Filmes_Alugados.push_back( novo_filme );
 
-            //Streams para impressao do log
+            /// Streams para impressao do log
             stringstream stream_linha;
             stream_linha << novo_filme->get_id() 
             << " " << novo_filme->get_titulo()
@@ -101,7 +97,7 @@ void Locadora::alugar_Filme( vector<int> codigos, long cpf )
             getline(stream_linha, linha);
             cout << linha << endl;
             _Logs << linha << endl;
-            //
+            
         }
         else 
             cout << "ERRO: " 
@@ -110,7 +106,7 @@ void Locadora::alugar_Filme( vector<int> codigos, long cpf )
             << " " << novo_filme-> get_categoria() << "indisponivel" << endl; 
     }
 
-    for( auto t:codigos_invalidos ) //vector codigos invalidos
+    for( auto t:codigos_invalidos ) /// Vector codigos invalidos
     {
         cout << "ERRO: Filme " << t << " inexistente" << endl;
     }
@@ -125,7 +121,7 @@ void Locadora::devolver_Filme( long cpf ){
     float valor_por_filme = 0.0;
     int dias = rand() % 14 + 1;
     
-        //Streams para impressão do Log
+        /// Streams para impressão do Log
         stringstream stream_cliente;
         stream_cliente << "Cliente " << cpf << " " 
         << this->buscar_cliente( cpf )->get_nome()
@@ -135,14 +131,14 @@ void Locadora::devolver_Filme( long cpf ){
         getline (stream_cliente, linha_cliente);
         cout << linha_cliente << endl;
         _Logs << linha_cliente << endl;
-        //
+        
 
     for( auto filme_devolvido : (*filmes_alugados) ){
         filme_devolvido->_qtd_disp += 1;
         valor_por_filme = filme_devolvido->calc_valor_locacao(dias);
         valor_a_pagar += valor_por_filme;
 
-            //Streams para impressão do Log
+            /// Streams para impressão do Log
             stringstream stream_filme;
             stream_filme << filme_devolvido->get_id() 
             << " R$" << valor_por_filme;
@@ -151,7 +147,7 @@ void Locadora::devolver_Filme( long cpf ){
             getline(stream_filme, linha_filme);
             cout << linha_filme << endl;
             _Logs << linha_filme << endl;
-            //
+            
     }
     filmes_alugados->clear();
 
@@ -159,7 +155,7 @@ void Locadora::devolver_Filme( long cpf ){
     _Logs << "Total pago: R$" << valor_a_pagar << endl;
 }
 
-//Controle do Estoque
+/// Controle do Estoque
 map <int, Filme*> Locadora::getEstoque() { return _Estoque; }
 
 void Locadora::ler_Arquivo_de_Estoque( string nome_do_arquivo )
@@ -291,7 +287,7 @@ void Locadora::imprimir_Estoque( char tipo_ordenacao)
 
 }
 
-//Controle de Clientes
+/// Controle de Clientes
 void Locadora::cadastrar_cliente( long cpf , string nome){
     
     if( any_of(_Clientes.begin(), _Clientes.end(), 

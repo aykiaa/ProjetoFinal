@@ -25,6 +25,7 @@
 #include <cstdlib>
 #include <sstream>
 #include <map>
+#include <stdexcept>
 
 //Desenvolvimento classe locadora
 Locadora::Locadora( string nome ) : _Nome(nome) 
@@ -231,22 +232,27 @@ void Locadora::cadastrar_Filme( bool file, char tipo, int quantidade, int codigo
     }
 }
 
-void Locadora::remover_Filme( int codigo )
-{ /// Remove um filme
-    if( _Estoque.find( codigo ) != _Estoque.end() )
-    {
-        delete _Estoque.find( codigo )->second;
-        _Estoque.erase( codigo );
-        cout << "Filme " << codigo << " removido com sucesso" << endl;
-    }
-    else 
-    {
-        cout << "ERRO: codigo inexistente" << endl;
+void Locadora::remover_Filme( int codigo )  /// Remove um filme baseado em seu codigo
+{
+    try {
+        auto it = _Estoque.find(codigo);
+        if (it != _Estoque.end()) {
+            delete it->second;
+            _Estoque.erase(codigo);
+            cout << "Filme " << codigo << " removido com sucesso" << endl;
+        } else {
+            throw invalid_argument("ERRO: codigo inexistente");
+        }
+    } catch (const invalid_argument& e) {
+        cout << e.what() << endl;
+    } catch (...) {
+        cout << "Erro desconhecido" << endl;
     }
 }
 
-void Locadora::imprimir_Estoque( char tipo_ordenacao)
-{ /// Retorna os titulos que estao em estoque em ordem.
+
+void Locadora::imprimir_Estoque( char tipo_ordenacao) /// Retorna os titulos que estao em estoque em ordem.
+{
     vector <Filme*> filmes_ordenados;
     for( auto it : _Estoque )
     {
@@ -288,45 +294,46 @@ void Locadora::imprimir_Estoque( char tipo_ordenacao)
 }
 
 /// Controle de Clientes
-void Locadora::cadastrar_cliente( long cpf , string nome){
-    
-    if( any_of(_Clientes.begin(), _Clientes.end(), 
-        [cpf](const Cliente* C) {return C->get_cpf() == cpf;} ) == true )
-    {
-        cout << "ERRO: CPF repetido" << endl;
-        return;
-    }
-
-    else if (cpf <=  0 || nome.empty() || (to_string(cpf).length() != 11) ) //Verifica se o CPF informado eh valido
-    {
-        cout << "ERRO: dados incorretos" << endl;
-        return;
-    }
-
-    else
-    {
-        Cliente* novo_cliente = new Cliente(cpf, nome);
-        _Clientes.emplace_back(novo_cliente);
-        cout << "Cliente " << cpf << " cadastrado com sucesso" << endl;
+void Locadora::cadastrar_cliente(long cpf, string nome) {
+    try {
+        if (any_of(_Clientes.begin(), _Clientes.end(),
+                   [cpf](const Cliente* C) { return C->get_cpf() == cpf; })) {
+            throw "ERRO: CPF repetido";
+        } 
+        else if (cpf <= 0 || nome.empty() || (to_string(cpf).length() != 11)) {
+            throw "ERRO: dados incorretos";
+        } 
+        else {
+            Cliente* novo_cliente = new Cliente(cpf, nome);
+            _Clientes.emplace_back(novo_cliente);
+            cout << "Cliente " << cpf << " cadastrado com sucesso" << endl;
+        }
+    } catch (const char* e) {
+        cout << e << endl;
+    } catch (...) {
+        cout << "Erro desconhecido" << endl;
     }
 }
 
-void Locadora::remover_cliente(long cpf){ /// Remove um cliente 
-    auto it = find_if(
-      _Clientes.begin(), 
-      _Clientes.end(), 
-      [cpf] (const Cliente* cliente1){ return cliente1->get_cpf() == cpf;}
-    );
+void Locadora::remover_cliente(long cpf) { //Remover cliente
+    try {
+        auto it = find_if(
+            _Clientes.begin(), 
+            _Clientes.end(), 
+            [cpf](const Cliente* cliente1) { return cliente1->get_cpf() == cpf; }
+        );
 
-    if (it != _Clientes.end())
-    {
-        _Clientes.erase(it);
-        cout << "Cliente " << cpf << " removido com sucesso" << endl;
+        if (it != _Clientes.end()) {
+            _Clientes.erase(it);
+            cout << "Cliente " << cpf << " removido com sucesso" << endl;
+        } else {
+            throw invalid_argument("ERRO: CPF inexistente");
+        }
+    } catch (const invalid_argument& e) {
+        cerr << "Erro ao remover cliente: " << e.what() << endl;
     }
-    else{
-        cout << "ERRO: CPF inexistente" << endl;
-    };
 }
+
 
 void Locadora::imprimir_clientes(char tipo_ordenacao){ /// Retorna os clientes em ordem
     vector <Cliente*> clientes_ordernados = _Clientes;
@@ -350,12 +357,19 @@ void Locadora::imprimir_clientes(char tipo_ordenacao){ /// Retorna os clientes e
     };
 }
 
-Cliente* Locadora::buscar_cliente(long cpf){ /// Faz a busca de clientes por CPF
-    for( Cliente* it:_Clientes ){
-        if( it->get_cpf() == cpf ) {
-            return it; 
+Cliente* Locadora::buscar_cliente(long cpf) { /// Faz a busca de clientes por CPF
+    try {
+        for (Cliente* it : _Clientes) {
+            if (it->get_cpf() == cpf) {
+                return it;
+            }
         }
+        throw invalid_argument("ERRO: CPF inexistente");
+    } catch (const invalid_argument& e) {
+        cout << e.what() << endl;
+        return nullptr; 
+    } catch (...) {
+        cout << "Erro desconhecido" << endl;
+        return nullptr; 
     }
-    cout << "ERRO: CPF inexistente" << endl;
-    return nullptr;
 }

@@ -47,72 +47,94 @@ Locadora::~Locadora()
     _Logs.close();
 }
 
-void Locadora::alugar_Filme( vector<int> codigos, long cpf )
+void Locadora::alugar_Filme(vector<int> codigos, long cpf)
 {
-    if ( this->buscar_cliente( cpf ) == nullptr ) { return; };
-
-    /// Separando codigos em validos e invalidos
-    vector<int> codigos_invalidos;
-    vector<Filme*> filmes_alugados;
-    for( auto id_novo_filme:codigos ) 
+    try
     {
-        if( _Estoque.find( id_novo_filme ) == _Estoque.end() )
+        // Verifica se o cliente existe
+        if (this->buscar_cliente(cpf) == nullptr)
         {
-            codigos_invalidos.push_back( id_novo_filme );
+            throw invalid_argument("Cliente não encontrado");
         }
-        else
+
+        vector<int> codigos_invalidos;
+        vector<Filme *> filmes_alugados;
+
+        // Separando códigos em válidos e inválidos
+        for (auto id_novo_filme : codigos)
         {
-            filmes_alugados.push_back( _Estoque.at( id_novo_filme ) );
+            if (_Estoque.find(id_novo_filme) == _Estoque.end())
+            {
+                codigos_invalidos.push_back(id_novo_filme);
+            }
+            else
+            {
+                filmes_alugados.push_back(_Estoque.at(id_novo_filme));
+            }
+        }
+
+        // Exibe os filmes alugados pelo cliente, se houver
+        if (!filmes_alugados.empty())
+        {
+            stringstream stream_cliente;
+            stream_cliente << "Cliente " << cpf << " "
+                           << this->buscar_cliente(cpf)->get_nome()
+                           << " alugou os filmes:" << endl;
+
+            string linha_cliente;
+            getline(stream_cliente, linha_cliente);
+            cout << linha_cliente << endl;
+            _Logs << linha_cliente << endl;
+        }
+
+        // Processa os filmes alugados
+        for (auto novo_filme : filmes_alugados)
+        {
+            try
+            {
+                // Verifica se o filme está disponível
+                if (novo_filme->get_qtdDisp() > 0)
+                {
+                    // Atualiza a quantidade disponível e registra o aluguel para o cliente
+                    novo_filme->_qtd_disp -= 1;
+                    this->buscar_cliente(cpf)->_Filmes_Alugados.push_back(novo_filme);
+
+                    // Exibe informações do filme alugado
+                    stringstream stream_linha;
+                    stream_linha << novo_filme->get_id()
+                                 << " " << novo_filme->get_titulo()
+                                 << " " << novo_filme->get_tipo();
+
+                    string linha;
+                    getline(stream_linha, linha);
+                    cout << linha << endl;
+                    _Logs << linha << endl;
+                }
+                else
+                {
+                    // Lança uma exceção se o filme estiver indisponível
+                    throw runtime_error("Filme indisponível: " + to_string(novo_filme->get_id()));
+                }
+            }
+            catch (const exception &e)
+            {
+                cerr << "ERRO: " << e.what() << endl;
+                
+            }
+        }
+
+        // Exibe os códigos inválidos
+        for (auto t : codigos_invalidos)
+        {
+            cerr << "ERRO: Filme " << t << " inexistente" << endl;
         }
     }
-    
-    /// Streams para impressao do log
-    if( filmes_alugados.empty() == false ){
-        
-        stringstream stream_cliente;
-        stream_cliente << "Cliente " << cpf << " " 
-        << this->buscar_cliente( cpf )->get_nome()
-        << " alugou os filmes:" << endl;
-
-        string linha_cliente;
-        getline (stream_cliente, linha_cliente);
-        cout << linha_cliente << endl;
-        _Logs << linha_cliente << endl;
-        //
-    }
-
-    for( auto novo_filme:filmes_alugados ) /// Vetor filmes de codigos validos
+    catch (const exception &e)
     {
-        if( novo_filme->get_qtdDisp() > 0 ){
-            novo_filme->_qtd_disp -= 1;
-
-            this->buscar_cliente( cpf )->_Filmes_Alugados.push_back( novo_filme );
-
-            /// Streams para impressao do log
-            stringstream stream_linha;
-            stream_linha << novo_filme->get_id() 
-            << " " << novo_filme->get_titulo()
-            << " " << novo_filme->get_tipo();
-
-            string linha;
-            getline(stream_linha, linha);
-            cout << linha << endl;
-            _Logs << linha << endl;
-            
-        }
-        else 
-            cout << "ERRO: " 
-            << novo_filme->get_id() 
-            << " " << novo_filme->get_titulo() 
-            << " " << novo_filme-> get_categoria() << "indisponivel" << endl; 
+        cerr << "ERRO: " << e.what() << endl;
     }
-
-    for( auto t:codigos_invalidos ) /// Vector codigos invalidos
-    {
-        cout << "ERRO: Filme " << t << " inexistente" << endl;
-    }
-    
 }
+
 
 void Locadora::devolver_Filme( long cpf ){
     if ( this->buscar_cliente( cpf ) == nullptr ) { return; };
@@ -161,76 +183,101 @@ map <int, Filme*> Locadora::getEstoque() { return _Estoque; }
 
 void Locadora::ler_Arquivo_de_Estoque( string nome_do_arquivo )
 { /// Faz a leitura de um aquivo do estoque
-    ifstream arquivo_de_filmes;
-    arquivo_de_filmes.open( nome_do_arquivo );
+    try{
+        ifstream arquivo_de_filmes;
+        arquivo_de_filmes.open( nome_do_arquivo );
 
-    char tipo;
-    int quantidade, codigo, contador;
-    string titulo, categoria, linha_do_arquivo;
+        char tipo;
+        int quantidade, codigo, contador;
+        string titulo, categoria, linha_do_arquivo;
 
-    int numero_de_filmes = 0;
-    if( arquivo_de_filmes.is_open() )
-    {
-        while( getline( arquivo_de_filmes, linha_do_arquivo ) )
-        {   
-            stringstream stream_linha_do_arquivo;
-            stream_linha_do_arquivo << linha_do_arquivo;
-            stream_linha_do_arquivo >> tipo >> quantidade >> codigo >> titulo >> categoria;
+        int numero_de_filmes = 0;
+        if( arquivo_de_filmes.is_open() )
+        {
+            while( getline( arquivo_de_filmes, linha_do_arquivo ) )
+            {   
+                stringstream stream_linha_do_arquivo;
+                stream_linha_do_arquivo << linha_do_arquivo;
+                stream_linha_do_arquivo >> tipo >> quantidade >> codigo >> titulo >> categoria;
 
-            this->cadastrar_Filme(1, tipo, quantidade, codigo, titulo, categoria);
-            numero_de_filmes += 1;
+                this->cadastrar_Filme(1, tipo, quantidade, codigo, titulo, categoria);
+                numero_de_filmes += 1;
+            }
+            arquivo_de_filmes.close();
+            cout << numero_de_filmes << " Filmes cadastrados com sucesso" << endl;
         }
-        arquivo_de_filmes.close();
-        cout << numero_de_filmes << " Filmes cadastrados com sucesso" << endl;
+        else{
+            throw invalid_argument("ERRO: arquivo inexistente");
+        }
     }
-    else 
-        cout << "ERRO: arquivo inexistente" << endl; 
+    catch (const exception &e)
+    {
+        cerr << "Erro durante a leitura do arquivo: " << e.what() << endl;
+    }
 }
 
-void Locadora::cadastrar_Filme( bool file, char tipo, int quantidade, int codigo, string titulo, string categoria ) 
-{ /// funcao responsavel pelo cadastro de filmes
-    //CONFERINDO DADOS
-    //OBS: NO MAIN, CONFERIR INPUT DE DADOS E IMPRIMIR ERROS ANTES DE CHAMAR A FUNÇÃO    
-
-    if( _Estoque.find( codigo ) != _Estoque.end() )
+void Locadora::cadastrar_Filme(bool file, char tipo, int quantidade, int codigo, string titulo, string categoria)
+{
+    try
     {
-        cout << "ERRO: codigo repetido" << endl;
-        return;
-    }
+        //CONFERINDO DADOS
+        //OBS: NO MAIN, CONFERIR INPUT DE DADOS E IMPRIMIR ERROS ANTES DE CHAMAR A FUNÇÃO    
 
-    switch(tipo){
-        case('D') : {
-            if( categoria == "" && file == false){
-                cout << "ERRO: dados incorretos" << endl;
-                return;
+        if (_Estoque.find(codigo) != _Estoque.end())
+        {
+            throw runtime_error("ERRO: codigo repetido");
+        }
+
+        switch (tipo)
+        {
+        case ('D'):
+        {
+            if (categoria == "" && file == false)
+            {
+                throw runtime_error("ERRO: dados incorretos");
             }
-            else{
-                Filme* Novo_Filme = new DVD(codigo, titulo, quantidade, categoria);
+            else
+            {
+                Filme *Novo_Filme = new DVD(codigo, titulo, quantidade, categoria);
                 _Estoque.emplace(codigo, Novo_Filme);
+                break;
             }
         }
-        case ('F') : {
-            if( categoria != "" && file == false){
-                cout << "ERRO: dados incorretos" << endl;
-                return;
+        case ('F'):
+        {
+            if (categoria != "" && file == false)
+            {
+                throw runtime_error("ERRO: dados incorretos");
             }
-            else{
-                Filme* Novo_Filme = new Fita(codigo, titulo, quantidade);
+            else
+            {
+                Filme *Novo_Filme = new Fita(codigo, titulo, quantidade);
                 _Estoque.emplace(codigo, Novo_Filme);
+                break;
             }
         }
-        default : {
-            if(!file){
-                cout << "ERRO: dados incorretos" << endl;
-                return;
+        default:
+        {
+            if (!file)
+            {
+                throw runtime_error("ERRO: dados incorretos");
             }
+            break;
+        }
+        }
+
+        if (file == false)
+        {
+            cout << "Filme " << codigo << " cadastrado com sucesso" << endl;
         }
     }
-
-    if( file == false ) {
-        cout << "Filme " << codigo << " cadastrado com sucesso" << endl;
+    catch (const exception &e)
+    {
+        cerr << "Erro durante o cadastro do filme: " << e.what() << endl;
     }
 }
+
+
 
 void Locadora::remover_Filme( int codigo )  /// Remove um filme baseado em seu codigo
 {

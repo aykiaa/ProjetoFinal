@@ -17,6 +17,13 @@
 #include <ctype.h>
 
 using namespace std;
+ void imprimir_comandos(){
+    cout<<"# # # # # # # # # # # # #"<<endl<<"#       COMANDOS        #"<<endl<<"#                       #"<<endl<<"# LA: Ler Arquivo       #"<<endl<<
+    "# CF: Cadastrar Filme   #"<<endl<<"# RF: Remover Filme     #"<<endl<<"# LF: Listar Filmes     #"<<endl<<"# CC: Cadastrar Cliente #"<<endl<<
+    "# RF: Remover Cliente   #"<<endl<<"# LC: Listar Clientes   #"<<endl<<"# AL: Alugar Filme      #"<<endl<<"# DV: Devolver Filme    #"<<
+    endl<<"# FS: Finalizar Sistema #"<<endl<<"# # # # # # # # # # # # #"<<endl;
+ };
+ 
 /// Função auxiliar que verifica se um caractere nao e numerico.
 bool isNotNumeric(const char& c){
     if ( isdigit(c) ) 
@@ -24,10 +31,13 @@ bool isNotNumeric(const char& c){
     else 
         return true;
 };
+
 /// Função principal que gerencia as operacoes da locadora.
 int main(){
     string comando;
     Locadora localiza("localiza");
+    imprimir_comandos();
+    cout<<endl<<"Insira o comando desejado:";
     while(cin>>comando){
         if(comando=="LA"){
             string nome_arquivo;
@@ -38,10 +48,15 @@ int main(){
             int codigo, quantidade;
             char tipo;
             string titulo, categoria;
+            cout<<"Digite o tipo, F para Fitas, D para DVDs:"<<endl;
             cin >> tipo;
+            cout<<"Digite a quantidade:"<<endl;
             cin >> quantidade;
+            cout<<"Digite o codigo:"<<endl;
             cin >> codigo;
+            cout<<"Digite o titulo:"<<endl;
             cin >> titulo;
+            cout<<"Digite a categoria:"<<endl;
               if(tipo == 'D')
                 cin >> categoria;
               else
@@ -50,11 +65,13 @@ int main(){
         }
         else if(comando=="RF"){
             int codigo;
+            cout<<"Digite o codigo do filme que deseja ser removido:"<<endl;
             cin >> codigo;
             localiza.remover_Filme( codigo );
         }
         else if(comando=="LF"){
             char letra;
+            cout<<"Digite T para ordenar por titulos ou C para codigos:"<<endl;
             cin >> letra;
             localiza.imprimir_Estoque( letra );
         }

@@ -3,6 +3,7 @@
 #ifndef DVD_H
 #define DVD_H
 #include "Filme.hpp"
+#include "teste_erros.hpp"
 
 class DVD : public Filme {
 private:

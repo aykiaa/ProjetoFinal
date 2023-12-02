@@ -2,11 +2,14 @@
 #include "Locadora.hpp"
 #include "doctest.h"
 
-TEST_CASE("Cadasatro de clientes") {
-  Locadora locadora("Americanas");
+Locadora locadora("Americanas");
 
-  locadora.cadastrar_cliente(131454677950, "Neris");
+TEST_CASE("Cadasatro de clientes") {
+
+  locadora.cadastrar_cliente(31454677950, "Neris");
   locadora.cadastrar_cliente(65875432143, "Obina");
+
+  CHECK_THROWS(locadora.cadastrar_cliente())
 
   CHECK(locadora.buscar_cliente(131454677950) != nullptr);
   CHECK(locadora.buscar_cliente(65875432143) != nullptr);

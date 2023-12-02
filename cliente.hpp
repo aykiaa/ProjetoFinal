@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "Filme.hpp"
+#include "teste_erros.hpp"
 
 using namespace std;
 

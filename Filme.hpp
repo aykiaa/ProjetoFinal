@@ -6,6 +6,7 @@
 #define FILME_H
 #include <iostream>
 #include <string>
+#include "teste_erros.hpp"
 using namespace std;
 
 

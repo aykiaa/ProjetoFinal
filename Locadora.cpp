@@ -136,47 +136,67 @@ void Locadora::alugar_Filme(vector<int> codigos, long cpf)
 }
 
 
-void Locadora::devolver_Filme( long cpf ){
-    if ( this->buscar_cliente( cpf ) == nullptr ) { return; };
+void Locadora::devolver_Filme(long cpf) {
+    try {
+        // Verifica se o cliente existe
+        if (this->buscar_cliente(cpf) == nullptr) {
+            throw invalid_argument("Cliente não encontrado");
+        }
 
-    vector <Filme*> *filmes_alugados = &(this->buscar_cliente( cpf )->_Filmes_Alugados);
-    float valor_a_pagar = 0.0;
-    float valor_por_filme = 0.0;
-    int dias = rand() % 14 + 1;
-    
-        /// Streams para impressão do Log
+        // Obtém a lista de filmes alugados pelo cliente
+        vector<Filme*> *filmes_alugados = &(this->buscar_cliente(cpf)->_Filmes_Alugados);
+        float valor_a_pagar = 0.0;
+        float valor_por_filme = 0.0;
+        int dias = rand() % 14 + 1;
+
+        // Streams para impressão do log do cliente
         stringstream stream_cliente;
-        stream_cliente << "Cliente " << cpf << " " 
-        << this->buscar_cliente( cpf )->get_nome()
-        << " devolveu os filmes:" << endl;
+        stream_cliente << "Cliente " << cpf << " "
+                       << this->buscar_cliente(cpf)->get_nome()
+                       << " devolveu os filmes:" << endl;
 
+        // Imprime e registra no log a linha correspondente ao cliente
         string linha_cliente;
-        getline (stream_cliente, linha_cliente);
+        getline(stream_cliente, linha_cliente);
         cout << linha_cliente << endl;
         _Logs << linha_cliente << endl;
-        
 
-    for( auto filme_devolvido : (*filmes_alugados) ){
-        filme_devolvido->_qtd_disp += 1;
-        valor_por_filme = filme_devolvido->calc_valor_locacao(dias);
-        valor_a_pagar += valor_por_filme;
+        // Itera sobre os filmes devolvidos
+        for (auto filme_devolvido : (*filmes_alugados)) {
+            
+            if (filme_devolvido == nullptr) {
+                throw runtime_error("Filme não encontrado na lista de filmes alugados");
+            }
 
-            /// Streams para impressão do Log
+            
+            filme_devolvido->_qtd_disp += 1;
+            valor_por_filme = filme_devolvido->calc_valor_locacao(dias);
+            valor_a_pagar += valor_por_filme;
+
+    
             stringstream stream_filme;
-            stream_filme << filme_devolvido->get_id() 
-            << " R$" << valor_por_filme;
+            stream_filme << filme_devolvido->get_id()
+                         << " R$" << valor_por_filme;
 
+            // Imprime e registra no log a linha correspondente ao filme
             string linha_filme;
             getline(stream_filme, linha_filme);
             cout << linha_filme << endl;
             _Logs << linha_filme << endl;
-            
-    }
-    filmes_alugados->clear();
+        }
 
-    cout << "Total a pagar: R$" << valor_a_pagar << endl;
-    _Logs << "Total pago: R$" << valor_a_pagar << endl;
+        // Limpa a lista de filmes alugados
+        filmes_alugados->clear();
+
+        // Imprime e registra no log o total a pagar
+        cout << "Total a pagar: R$" << valor_a_pagar << endl;
+        _Logs << "Total pago: R$" << valor_a_pagar << endl;
+
+    } catch (const exception& e) {
+        cerr << "Erro: " << e.what() << endl;
+    }
 }
+
 
 /// Controle do Estoque
 map <int, Filme*> Locadora::getEstoque() { return _Estoque; }
@@ -225,7 +245,7 @@ void Locadora::cadastrar_Filme(bool file, char tipo, int quantidade, int codigo,
 
         if (_Estoque.find(codigo) != _Estoque.end())
         {
-            throw runtime_error("ERRO: codigo repetido");
+            throw invalid_argument("ERRO: codigo repetido");
         }
 
         switch (tipo)
@@ -234,7 +254,7 @@ void Locadora::cadastrar_Filme(bool file, char tipo, int quantidade, int codigo,
         {
             if (categoria == "" && file == false)
             {
-                throw runtime_error("ERRO: dados incorretos");
+                throw invalid_argument("ERRO: dados incorretos");
             }
             else
             {
@@ -247,7 +267,7 @@ void Locadora::cadastrar_Filme(bool file, char tipo, int quantidade, int codigo,
         {
             if (categoria != "" && file == false)
             {
-                throw runtime_error("ERRO: dados incorretos");
+                throw invalid_argument("ERRO: dados incorretos");
             }
             else
             {
@@ -291,52 +311,55 @@ void Locadora::remover_Filme( int codigo )  /// Remove um filme baseado em seu c
             throw invalid_argument("ERRO: codigo inexistente");
         }
     } catch (const invalid_argument& e) {
-        cout << e.what() << endl;
+        cerr << e.what() << endl;
     } catch (...) {
-        cout << "Erro desconhecido" << endl;
+        cerr << "Erro desconhecido" << endl;
     }
 }
 
 
 void Locadora::imprimir_Estoque( char tipo_ordenacao) /// Retorna os titulos que estao em estoque em ordem.
 {
-    vector <Filme*> filmes_ordenados;
-    for( auto it : _Estoque )
-    {
-        filmes_ordenados.push_back( it.second );
-    }
-
-    switch(tipo_ordenacao){
-        case('T') : {
-            sort( 
-            filmes_ordenados.begin(), 
-            filmes_ordenados.end(), 
-            [](const Filme* F1,const Filme* F2 ) { return F1->get_titulo() <= F2->get_titulo(); } 
-            );
-            break;
+    try{
+        vector <Filme*> filmes_ordenados;
+        for( auto it : _Estoque )
+        {
+            filmes_ordenados.push_back( it.second );
         }
-        case('C') : {
-            sort( 
-            filmes_ordenados.begin(), 
-            filmes_ordenados.end(), 
-            [](const Filme* F1,const Filme* F2 ) { return F1->get_id() <= F2->get_id(); } 
-            );
-            break;
-        }
-        default : {
-            cout << "ERRO: comando invalido" << endl;
-            return;
-        }
-    }
 
-    for( Filme* it : filmes_ordenados ) {
-        cout << it->get_id() << " " 
-        <<  it->get_titulo() << " " 
-        << it->get_qtdDisp() << " " 
-        << it->get_tipo() << " "
-        << it->get_categoria() << endl;
-    }
+        switch(tipo_ordenacao){
+            case('T') : {
+                sort( 
+                filmes_ordenados.begin(), 
+                filmes_ordenados.end(), 
+                [](const Filme* F1,const Filme* F2 ) { return F1->get_titulo() <= F2->get_titulo(); } 
+                );
+                break;
+            }
+            case('C') : {
+                sort( 
+                filmes_ordenados.begin(), 
+                filmes_ordenados.end(), 
+                [](const Filme* F1,const Filme* F2 ) { return F1->get_id() <= F2->get_id(); } 
+                );
+                break;
+            }
+            default : {
+                throw invalid_argument("ERRO: comando invalido");
+                return;
+            }
+        }
 
+        for( Filme* it : filmes_ordenados ) {
+            cout << it->get_id() << " " 
+            <<  it->get_titulo() << " " 
+            << it->get_qtdDisp() << " " 
+            << it->get_tipo() << " "
+            << it->get_categoria() << endl;
+        }
+    } catch (const exception& e){
+        cerr << "Erro: " << e.what() << endl;
+    }
 
 }
 
@@ -356,9 +379,9 @@ void Locadora::cadastrar_cliente(long cpf, string nome) {
             cout << "Cliente " << cpf << " cadastrado com sucesso" << endl;
         }
     } catch (const char* e) {
-        cout << e << endl;
+        cerr << e << endl;
     } catch (...) {
-        cout << "Erro desconhecido" << endl;
+        cerr << "Erro desconhecido" << endl;
     }
 }
 
@@ -383,25 +406,32 @@ void Locadora::remover_cliente(long cpf) { //Remover cliente
 
 
 void Locadora::imprimir_clientes(char tipo_ordenacao){ /// Retorna os clientes em ordem
-    vector <Cliente*> clientes_ordernados = _Clientes;
-    if ( tipo_ordenacao == 'C')
-    {
-        sort(clientes_ordernados.begin(), clientes_ordernados.end(), [](const Cliente* c1, const Cliente* c2){
-                return c1->get_cpf () < c2->get_cpf();
-            });
-    }
-    
-    else if ( tipo_ordenacao == 'N')
-    {
-        sort(clientes_ordernados.begin(), clientes_ordernados.end(), [](const Cliente* c1, const Cliente* c2){
-                return c1->get_nome () < c2->get_nome();
-            });
-    }
+    try {
+        vector <Cliente*> clientes_ordernados = _Clientes;
+        if ( tipo_ordenacao == 'C')
+        {
+            sort(clientes_ordernados.begin(), clientes_ordernados.end(), [](const Cliente* c1, const Cliente* c2){
+                    return c1->get_cpf () < c2->get_cpf();
+                });
+        }
+        
+        else if ( tipo_ordenacao == 'N')
+        {
+            sort(clientes_ordernados.begin(), clientes_ordernados.end(), [](const Cliente* c1, const Cliente* c2){
+                    return c1->get_nome () < c2->get_nome();
+                });
+        }
+        else{
+            throw invalid_argument("ERRO: comando invalido");
+        }
 
-    for ( auto cliente : clientes_ordernados)
-    {
-        cout << cliente->get_cpf() << " " << cliente->get_nome() << endl;
-    };
+        for ( auto cliente : clientes_ordernados)
+        {
+            cout << cliente->get_cpf() << " " << cliente->get_nome() << endl;
+        };
+    } catch (const exception& e){
+        cerr << "Erro: " << e.what() << endl;
+    }
 }
 
 Cliente* Locadora::buscar_cliente(long cpf) { /// Faz a busca de clientes por CPF
